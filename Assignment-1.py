@@ -17,7 +17,7 @@ print("\nFirst Five Records:\n")
 print(df.head())
 
 print("\nDataset Information:\n")
-print(df.info())
+df.info()
 
 print("\nNumerical Features:")
 print(df.select_dtypes(include=['int64', 'float64']).columns.tolist())
@@ -67,8 +67,13 @@ model.fit(X_train, y_train)
 
 y_pred = model.predict(X_test)
 
-print("\nPredicted Charges:\n")
-print(y_pred)
+predictions = pd.DataFrame({
+    "Actual Charges": y_test.values,
+    "Predicted Charges": y_pred
+})
+
+print("\nActual vs Predicted Charges:\n")
+print(predictions.head(10))
 
 print("\n" + "=" * 60)
 print("TASK 4: MODEL EVALUATION")
@@ -91,14 +96,14 @@ plt.title("Actual vs Predicted Insurance Charges")
 plt.show()
 
 print("\nObservations:")
-print("1. The predicted values closely follow the actual values, indicating that the model captures the overall trend.")
-print("2. The R² score shows how much variation in insurance charges is explained by the model.")
-print("3. Some prediction errors are visible because Linear Regression cannot perfectly model complex relationships.")
+print("1. Most predicted insurance charges are close to the actual values, indicating that the model performs reasonably well.")
+print("2. The model predicts low and medium insurance charges more accurately than very high charges.")
+print("3. Some deviation from the reference line indicates that Multiple Linear Regression cannot capture all complex relationships in the dataset.")
 
 print("\n" + "=" * 60)
 print("TASK 5: CONCLUSION")
 print("=" * 60)
 
 print("""
-The Multiple Linear Regression model was developed to predict medical insurance charges using age, sex, BMI, number of children, smoking status, and region. The model was trained and evaluated using an 80:20 train-test split. Among all the features, smoking status had the greatest influence on insurance charges, followed by BMI and age. The evaluation metrics indicated that the model performs reasonably well for predicting insurance costs. However, Linear Regression assumes a linear relationship between variables and may not capture complex non-linear patterns present in the data. More advanced machine learning algorithms such as Random Forest or Gradient Boosting may provide better prediction accuracy.
+The Multiple Linear Regression model was successfully developed to predict medical insurance charges using customer information such as age, sex, BMI, number of children, smoking status, and region. After preprocessing the dataset and splitting it into training and testing sets, the model was trained and evaluated using MAE, MSE, and R² Score. The results showed that the model can reasonably estimate insurance charges. Smoking status, BMI, and age were the most influential factors affecting medical insurance costs, while region and sex had comparatively smaller effects. Although the model performs well, Multiple Linear Regression assumes a linear relationship between variables and may not accurately capture complex non-linear patterns. More advanced algorithms such as Random Forest or Gradient Boosting can improve prediction accuracy.
 """)
